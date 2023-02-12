@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
             _passwordHashService = passwordHashService;
         }
 
-        public void CreateUser(string nickname, string password)
+        public IUser CreateUser(string nickname, string password)
         {
             _passwordHashService.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -28,6 +28,8 @@ namespace Infrastructure.Repositories
             };
 
             _userCollection.Add(user);
+
+            return user;
         }
 
         public bool DeleteUser(Guid id)
@@ -37,12 +39,12 @@ namespace Infrastructure.Repositories
 
         public IUser GetUser(Guid id)
         {
-            throw new NotImplementedException();
+            return _userCollection.FirstOrDefault(u => u.Id == id);
         }
 
         public IUser GetUserByNickname(string nickname)
         {
-            throw new NotImplementedException();
+            return _userCollection.FirstOrDefault(u => u.Nickname == u.Nickname);
         }
 
         public bool UpdateUser(Guid id, string nickname, string password)
